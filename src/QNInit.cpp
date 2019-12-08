@@ -26,7 +26,7 @@ bool QNInit::WindowInit() {
 
 bool QNInit::RenderInit() {
     QnRenderer_ = SDL_CreateRenderer( QnWindow_, -1,
-                                     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+                                       SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 
     return (QnRenderer_ != nullptr) && IMGInit();
 }

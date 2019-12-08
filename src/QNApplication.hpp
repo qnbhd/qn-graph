@@ -12,10 +12,24 @@
 #include "QNSETTINGS.hpp"
 #include "QNInit.hpp"
 
+#include "QNDekart.hpp"
 #include "QnObject.hpp"
+#include "QnPlotter.hpp"
 #include "QnTexture.hpp"
 #include "Widgets/QnButton.hpp"
 #include "Widgets/QnViewPort.hpp"
+
+#define MAXEPS 60
+#define MINEPS 25
+
+enum QnScrollState
+{
+    NONE,
+    MOUSE_DOWN,
+    MOUSE_DOWN_AND_MOVE,
+    MOUSE_UP
+};
+
 #include <vector>
 
 class QNApplication {
@@ -26,9 +40,16 @@ private:
 
     SDL_Renderer * QnMainRenderer;
 
+    int ScrollState = QnScrollState::NONE;
+
     QNInit QNi;
 
     bool QnQuit;
+
+    static double f(double x)
+    {
+        return sin(x);
+    }
 
 public:
 
@@ -39,6 +60,9 @@ public:
     ~QNApplication();
 
     void QNMainEventHandler(SDL_Event);
+
+    void QNScrollEventHandler (SDL_Event, QnViewPort, QNDekart&, int&, int&);
+
 
 };
 

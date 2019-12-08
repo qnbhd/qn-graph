@@ -34,24 +34,32 @@ private:
 
     SDL_Color QnBtnColor_;
 
+    SDL_Color QnBtnFontColor_;
+
     QnTexture QnBtnTexture_;
 
     Sint16 xoffset_;
 
     Sint16 yoffset_;
 
+    Sint16 ptsize_;
+
+
 public:
 
-    QnButton (SDL_Renderer* renderer, std::string title, SDL_Rect rect, SDL_Color color, Sint16 xof = 0, Sint16 yof = 0) :
+    QnButton (SDL_Renderer* renderer, std::string title, SDL_Rect rect, SDL_Color color,
+                SDL_Color textColor = {0xFF, 0xFF, 0xFF, 0xFF}, Sint16 ptsize = 0,
+                Sint16 xof = 0, Sint16 yof = 0) :
                 QnRenderer_(renderer), QnBtnText_(std::move(title)), QnBtnRect_(rect), QnBtnColor_(color),
+                QnBtnFontColor_(textColor),
+                ptsize_(ptsize),
                 xoffset_(xof),
                 yoffset_(yof)
     {
         SDL_SetRenderDrawColor( QnRenderer_, color.r, color.g, color.b, color.a );
         SDL_RenderFillRect( QnRenderer_, &QnBtnRect_ );
         QnBtnTexture_.setRenderer(QnRenderer_);
-        SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
-        QnBtnTexture_.loadFromRenderedText(QnBtnText_, textColor, 18);
+        QnBtnTexture_.loadFromRenderedText(QnBtnText_, textColor, ptsize_);
         QnBtnTexture_.render(QnBtnRect_.x+__TEXT_BTN_X_OFFSET+xoffset_, QnBtnRect_.y+__TEXT_BTN_Y_OFFSET+yoffset_);
     }
 
@@ -65,8 +73,7 @@ public:
     {
         SDL_SetRenderDrawColor( QnRenderer_, QnBtnColor_.r, QnBtnColor_.g, QnBtnColor_.b, 0xFF );
         SDL_RenderFillRect( QnRenderer_, &QnBtnRect_ );
-        SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
-        QnBtnTexture_.loadFromRenderedText(QnBtnText_, textColor, 18);
+        QnBtnTexture_.loadFromRenderedText(QnBtnText_, QnBtnFontColor_, ptsize_);
         QnBtnTexture_.render(QnBtnRect_.x+__TEXT_BTN_X_OFFSET+xoffset_, QnBtnRect_.y+__TEXT_BTN_Y_OFFSET+yoffset_);
     }
 
@@ -76,7 +83,18 @@ public:
         QnBtnRect_.y = pos.y;
     }
 
-    ~QnButton () override = default;
+    SDL_Point GetPos () override
+    {
+        return {QnBtnRect_.x, QnBtnRect_.y};
+    }
+
+    void SetText (std::string text)
+    {
+        QnBtnText_ = text;
+    }
+
+    ~QnButton () override
+    = default;
 
 
 };

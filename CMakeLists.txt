@@ -14,9 +14,10 @@ project(QNGraph)
 # ------- Set Vars ------- #
 
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
-set(SOURCE_FILES     src/main.cpp src/QNSETTINGS.hpp src/Widgets/QnButton.cpp src/Widgets/QnButton.hpp src/Widgets/QnEdit.cpp src/Widgets/QnEdit.hpp src/QNInit.cpp src/QNInit.hpp src/QnObject.hpp src/QnTexture.cpp src/QnTexture.hpp src/QNApplication.cpp src/QNApplication.hpp src/Widgets/QnViewPort.hpp)
+set(SOURCE_FILES     src/main.cpp src/QNSETTINGS.hpp src/Widgets/QnButton.cpp src/Widgets/QnButton.hpp src/Widgets/QnEdit.cpp src/Widgets/QnEdit.hpp src/QNInit.cpp src/QNInit.hpp src/QnObject.hpp src/QnTexture.cpp src/QnTexture.hpp src/QNApplication.cpp src/QNApplication.hpp src/Widgets/QnViewPort.hpp src/QNDekart.cpp src/QNDekart.hpp src/QnPlotter.cpp src/QnPlotter.hpp src/Algorithms/WuAlgorithm.hpp)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )

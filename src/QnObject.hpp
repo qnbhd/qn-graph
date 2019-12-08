@@ -20,5 +20,7 @@ public:
 
     virtual void SetPos (SDL_Point) = 0;
 
+    virtual SDL_Point GetPos () = 0;
+
 };
 
