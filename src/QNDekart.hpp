@@ -63,6 +63,9 @@ public:
 
     QnInterval GetInterval ();
 
+    void HandleEvent (SDL_Event e) override
+    {}
+
     int GetEps();
 
     SDL_Point GetPos ();

@@ -26,7 +26,6 @@ SDL_Point QNDekart::GetPos() {
     return QnAxisPos_;
 }
 
-
 void QNDekart::DrawAxis(SDL_Point, SDL_Color color) {
     DrawLine(QnRenderer_, {QnAxisPos_.x, __APPLICATION_SIZE_HEIGHT}, {QnAxisPos_.x, 0},
              2, color);
@@ -76,12 +75,11 @@ void QNDekart::DrawNet(SDL_Color color) {
 
     std::string bf = std::to_string(static_cast<int>(start - dxy * j)) + " ";
 
-    interval_.leftBound  = static_cast<int>(start - dxy * j);
-    interval_.rightBound = static_cast<int>( interval_.leftBound + (2 * __APPLICATION_SIZE_WIDTH / 3) / dxy - 10);
+    interval_.leftBound  = static_cast<int>(start - abs(dxy) * j - 5);
+
     j = 0;
 
     curx = QnAxisPos_.x;
-
 
     for (int i = 0; curx <= 2 * __APPLICATION_SIZE_WIDTH / 3; curx += eps_, ++i) {
         DrawLine(QnRenderer_, {curx, 0}, {curx, __APPLICATION_SIZE_HEIGHT}, 1, color);
@@ -91,18 +89,7 @@ void QNDekart::DrawNet(SDL_Color color) {
         j = i;
     }
 
-
-    if (interval_.leftBound == 0)
-    {
-        interval_.rightBound = static_cast<int>(start + dxy * j);
-        interval_.leftBound = static_cast<int>(interval_.rightBound - (2 * __APPLICATION_SIZE_WIDTH / 3) / dxy + 10);
-    }
-
-//    bf += std::to_string(static_cast<int>(start + dxy * j));
-//    //interval_.rightBound = static_cast<int>(start + dxy * j);
-//    Btn.SetPos({5, 5});
-//    Btn.SetText(bf);
-//    Btn.Redraw();
+    interval_.rightBound = static_cast<int>(start + dxy * j + 5);
 
     /// Draw Y-net
 

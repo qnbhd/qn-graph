@@ -80,8 +80,13 @@ bool QnTexture::loadFromRenderedText( const std::string& textureText, SDL_Color 
 
     //Render text surface
 
-    auto QnFont_ = TTF_OpenFont(__SETTINGS_MAIN_FONT_PATH, ptsize );
+    auto QnFont_ = TTF_OpenFont(font_.c_str(), ptsize );
+    if(!QnFont_) {
+        printf("TTF_OpenFont: %s\n", TTF_GetError());
+        // handle error
+    }
     SDL_Surface* textSurface = TTF_RenderText_Blended( QnFont_, textureText.c_str(), textColor );
+
     if( textSurface != nullptr )
     {
         //Create texture from surface pixels

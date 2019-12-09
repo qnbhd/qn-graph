@@ -93,6 +93,10 @@ public:
         QnBtnText_ = text;
     }
 
+    void HandleEvent (SDL_Event e) override
+    {}
+
+
     ~QnButton () override
     = default;
 

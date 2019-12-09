@@ -29,5 +29,7 @@ public:
     static void Curve (SDL_Renderer*, const VectorPoints& points, SDL_Color);
 
     static void Curve(SDL_Renderer *renderer, QNDekart &QnSC, double start, double end, f function, SDL_Color color);
+
+    static void Curve(SDL_Renderer *renderer, MathParser& mp, QNDekart &QnSC, double start, double end, SDL_Color color);
 };
 

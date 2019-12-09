@@ -3,6 +3,7 @@
 //
 
 #include "QNApplication.hpp"
+#include "Widgets/QnEdit.hpp"
 
 QNApplication::QNApplication()
 {
@@ -14,9 +15,14 @@ QNApplication::QNApplication()
 
 void QNApplication::QNMainLoop() {
     std::vector<QnObject*> mObjects;
+    //std::vector<QnEdit> lObjects;
     QNDekart QnSC (QnMainRenderer, {__APPLICATION_SIZE_WIDTH / 3, __APPLICATION_SIZE_HEIGHT / 2});
-    SDL_Rect QnCamera = { 0, 0, 2 * __APPLICATION_SIZE_WIDTH / 3, __APPLICATION_SIZE_HEIGHT };
     int dx, dy;
+
+    std::string expression = "sin(x)";
+    //std::getline(std::cin, expression);
+    MathParser mp;
+    mp.SetExpression(expression);
 
     SDL_Event e;
     auto hided = false;
@@ -39,6 +45,22 @@ void QNApplication::QNMainLoop() {
     QnViewPort QnViewPortGraph (__APPLICATION_SIZE_WIDTH / 3 + 1, 0, 2 * __APPLICATION_SIZE_WIDTH / 3,
                                 __APPLICATION_SIZE_HEIGHT);
 
+    QnEdit TextBox1 (QnMainRenderer, {10, 100, 240, 40}, QnViewPortFunc.ViewPort_,
+            __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
+
+    QnEdit TextBox2 (QnMainRenderer, {10, 160, 240, 40}, QnViewPortFunc.ViewPort_,
+                     __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
+
+    QnEdit TextBox3 (QnMainRenderer, {10, 220, 240, 40}, QnViewPortFunc.ViewPort_,
+                     __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
+
+    QnEdit TextBox4 (QnMainRenderer, {10, 280, 240, 40}, QnViewPortFunc.ViewPort_,
+                     __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
+
+    QnEdit TextBox5 (QnMainRenderer, {10, 340, 240, 40}, QnViewPortFunc.ViewPort_,
+                     __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
+
+
     SDL_Rect x {0, 0, __APPLICATION_SIZE_WIDTH, __APPLICATION_SIZE_HEIGHT };
 
 
@@ -46,13 +68,7 @@ void QNApplication::QNMainLoop() {
     mObjects.push_back(&PrevBtn);
 
 
-    int posx = __APPLICATION_SIZE_WIDTH/3, posy = __APPLICATION_SIZE_HEIGHT/2 - 50;
-
-    std::vector<std::pair<int,int>> pts = {{1,1}, {2,2}, {3,3}, {4,4},{10,10},{11,21}};
-    std::vector<std::pair<int,int>> dekpts;
-
-    QnSC.DekartToScreenPairs(pts, dekpts);
-
+    int pos = 0;
     while( !QnQuit ) {
         //SDL_RenderClear(qi.GetRenderer());
         //Handle events on queue
@@ -62,8 +78,16 @@ void QNApplication::QNMainLoop() {
         while (SDL_PollEvent(&e) != 0) {
             QNMainEventHandler(e);
             QNScrollEventHandler(e, QnViewPortGraph, QnSC, dx, dy);
-        }
 
+            TextBox1.HandleEvent(e); TextBox2.HandleEvent(e); TextBox3.HandleEvent(e); TextBox4.HandleEvent(e); TextBox5.HandleEvent(e);
+
+            if( e.type == SDL_KEYDOWN ) {
+               // if (e.key.keysym.sym == SDLK_RIGHT)
+                //    TextBox1.SetCursorPos(++pos);
+                //if (e.key.keysym.sym == SDLK_LEFT)
+            //        TextBox1.SetCursorPos(--pos);
+            }
+        }
 
         SDL_SetRenderDrawColor( QnMainRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
         SDL_RenderClear( QnMainRenderer);
@@ -75,6 +99,8 @@ void QNApplication::QNMainLoop() {
         for (auto obj: mObjects)
             obj->Redraw();
 
+        TextBox1.Redraw(); TextBox2.Redraw(); TextBox3.Redraw(); TextBox4.Redraw(); TextBox5.Redraw();
+
         SDL_RenderSetViewport(QnMainRenderer, &QnViewPortGraph.ViewPort_ );
         SDL_SetRenderDrawColor(QnMainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
@@ -84,17 +110,56 @@ void QNApplication::QNMainLoop() {
 
         QnSC.Redraw();
 
-        auto pos1 = QnSC.DekartToScreen(-6,2);
-        auto pos2 = QnSC.DekartToScreen(1,3);
-
-        QnSC.DekartToScreenPairs(pts, dekpts);
         // std::vector<SDL_Point> res = QnSC.DekartToScreenPairs(pts);
 
         //QnPlotter::Point(QnMainRenderer, pos.x, pos.y, __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D);
         //QnPlotter::Curve(QnMainRenderer, dekpts, __SETTINGS_CURRENT_THEME_ACCENT_DARK_COLOR_D);
         auto [start, end] = QnSC.GetInterval();
-        QnPlotter::Curve(QnMainRenderer, QnSC, start-5, end+2, cos, __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D);
-        QnPlotter::Curve(QnMainRenderer, QnSC, start-5, end+2, sin, __SETTINGS_CURRENT_THEME_LIGHT_COLOR_D);
+        //QnPlotter::Curve(QnMainRenderer, mp, QnSC, start, end, __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D);
+        //QnPlotter::Curve(QnMainRenderer, QnSC, start, end, f, __SETTINGS_CURRENT_THEME_LIGHT_COLOR_D);
+
+        try {
+            mp.SetExpression(TextBox1.GetText());
+            QnPlotter::Curve(QnMainRenderer, mp, QnSC, start, end, {0xAA, 0x01, 0xFF, 0x0});
+        } catch (const std::runtime_error& e)
+        {
+            std::cout << "i can't read expr" << std::endl;
+        } catch (const std::invalid_argument& e)
+        {
+            std::cout << "invalig argument :(" << std::endl;
+        } catch (const std::out_of_range& e)
+        {
+            //std::cout << "blin" << std::endl;
+        }
+
+        try {
+            mp.SetExpression(TextBox2.GetText());
+            QnPlotter::Curve(QnMainRenderer, mp, QnSC, start, end, {0xAA, 0xFF, 0xA6, 0x0});
+        } catch (const std::runtime_error& e)
+        {
+            std::cout << "i can't read expr" << std::endl;
+        } catch (const std::invalid_argument& e)
+        {
+            std::cout << "invalig argument :(" << std::endl;
+        } catch (const std::out_of_range& e)
+        {
+            //std::cout << "blin" << std::endl;
+        }
+
+        try {
+            mp.SetExpression(TextBox3.GetText());
+            QnPlotter::Curve(QnMainRenderer, mp, QnSC, start, end, {0xFF, 0x01, 0xAA, 0x0});
+        } catch (const std::runtime_error& e)
+        {
+            std::cout << "i can't read expr" << std::endl;
+        } catch (const std::invalid_argument& e)
+        {
+            std::cout << "invalig argument :(" << std::endl;
+        } catch (const std::out_of_range& e)
+        {
+            //std::cout << "blin" << std::endl;
+        }
+
 
         SDL_RenderPresent( QnMainRenderer);
     }

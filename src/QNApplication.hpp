@@ -19,6 +19,7 @@
 #include "Widgets/QnButton.hpp"
 #include "Widgets/QnViewPort.hpp"
 
+
 #define MAXEPS 60
 #define MINEPS 25
 
@@ -48,7 +49,7 @@ private:
 
     static double f(double x)
     {
-        return sin(x);
+        return exp(x);
     }
 
 public:

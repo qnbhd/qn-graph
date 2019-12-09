@@ -4,6 +4,19 @@
 
 #pragma once
 
+
+#include <vector>
+
+#include "MathParser/CVTable.hpp"
+#include "MathParser/Lexer.h"
+#include "MathParser/Expression.hpp"
+#include "MathParser/Parser.hpp"
+#include "MathParser/FunctionTable.hpp"
+#include "MathParser/MathParser.hpp"
+#include <map>
+#include <iomanip>
+
+
 #define __APPLICATION_SIZE_WIDTH  800
 #define __APPLICATION_SIZE_HEIGHT 600
 
@@ -15,6 +28,7 @@
 #define __APPLICATION_CPP_COMPILER_VERSION 17
 
 #define __SETTINGS_MAIN_FONT_PATH "misc/fonts/OpenSans-Regular.ttf"
+#define __SETTINGS_MONO_FONT_PATH "misc/fonts/PT-mono.ttf"
 
 #define __SETTINGS_BACKGROUND_COLOR                   0xFFFFFF
 #define __SETTINGS_CURRENT_THEME_MAIN_COLOR           #311B92
@@ -36,8 +50,6 @@
 
 #define __AUTHOR QNBHD
 #define __APP_DATE "05.12.2019"
-
-
 
 
 
