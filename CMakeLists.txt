@@ -19,7 +19,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
 set(SOURCE_FILES     src/main.cpp src/QNSETTINGS.hpp src/Widgets/QnButton.cpp src/Widgets/QnButton.hpp src/Widgets/QnEdit.cpp
         src/Widgets/QnEdit.hpp src/QNInit.cpp src/QNInit.hpp src/QnObject.hpp src/QnTexture.cpp src/QnTexture.hpp src/QNApplication.cpp src/QNApplication.hpp src/Widgets/QnViewPort.hpp src/QNDekart.cpp src/QNDekart.hpp src/QnPlotter.cpp
-        src/QnPlotter.hpp src/Algorithms/WuAlgorithm.hpp  src/MathParser/Settings.hpp src/MathParser/Lexer.cpp src/MathParser/Lexer.h src/MathParser/Token.h src/MathParser/TokenType.h src/MathParser/Parser.cpp src/MathParser/Parser.hpp src/MathParser/Expression.hpp src/MathParser/NumberExpression.hpp src/MathParser/BinaryExpression.hpp src/MathParser/CVExpression.hpp src/MathParser/CVTable.hpp src/MathParser/UnaryExpression.h src/MathParser/FuncExpression.hpp src/MathParser/FunctionTable.hpp src/MathParser/MathParser.cpp src/MathParser/MathParser.hpp)
+        src/QnPlotter.hpp src/Algorithms/WuAlgorithm.hpp  src/MathParser/Settings.hpp src/MathParser/Lexer.cpp src/MathParser/Lexer.h src/MathParser/Token.h src/MathParser/TokenType.h src/MathParser/Parser.cpp src/MathParser/Parser.hpp src/MathParser/Expression.hpp src/MathParser/NumberExpression.hpp src/MathParser/BinaryExpression.hpp src/MathParser/CVExpression.hpp src/MathParser/CVTable.hpp src/MathParser/UnaryExpression.h src/MathParser/FuncExpression.hpp src/MathParser/FunctionTable.hpp src/MathParser/MathParser.cpp src/MathParser/MathParser.hpp
+        src/Linalg/Approximation/Approximation.hpp src/Linalg/Interpolation/Interpolation.hpp src/Linalg/Matrix/Matrix.hpp src/Linalg/SLE/SLE.hpp src/QnFileDialog.hpp src/Linalg/Poly.cpp)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )

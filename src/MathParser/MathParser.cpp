@@ -27,6 +27,16 @@ MathParser::~MathParser() {
 }
 
 void MathParser::SetExpression(std::string expression) {
+    if (expression.length() == 1)
+        throw std::runtime_error("Invalid expression");
+
+    auto posy = expression.find('y');
+    auto pose =  expression.find('=');
+    if (posy != std::string::npos && pose != std::string::npos)
+    {
+        expression = expression.substr(pose);
+    }
+
     EXPRESSION_ = std::move(expression);
     LEXER_.setInput(EXPRESSION_);
 
@@ -47,7 +57,7 @@ std::vector<double> MathParser::Calculate(const std::vector<double>& range) {
 }
 
 double MathParser::Calculate(double x) {
-    if(!ExpressionIsEmpty())
+    if(!ExpressionIsEmpty() && EXRESULT_.size() > 0)
     {
         CVTable::setVariable("x", x);
         return EXRESULT_.at(0)->eval();

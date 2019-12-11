@@ -129,17 +129,6 @@ SDL_Point QNDekart::DekartToScreen(double x, double y) {
     return {static_cast<int>(XDKS(x)), static_cast<int>(YDKS(y))};
 }
 
-void QNDekart::DekartToScreenPairs(const VectorPoints & source, VectorPoints & update) {
-    update.clear();
-
-    for (auto [x,y] : source)
-    {
-        auto res = DekartToScreen(x,y);
-        update.emplace_back(res.x, res.y);
-    }
-}
-
-
 
 
 

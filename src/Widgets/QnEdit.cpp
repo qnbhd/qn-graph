@@ -10,7 +10,7 @@ QnEdit::QnEdit(SDL_Renderer *renderer, SDL_Rect viewport, SDL_Rect parentviewpor
 {
     SDL_RenderSetViewport(QnRenderer_, &QnEditViewPort_);
     QnEditTexture_.setRenderer(QnRenderer_);
-    QnEditTexture_.setFontPath("misc/fonts/mono.ttf");
+    QnEditTexture_.setFontPath(__SETTINGS_MONO_FONT_PATH);
 }
 
 
@@ -61,11 +61,9 @@ void QnEdit::SetCursorPos(int pos) {
 
 void QnEdit::HandleEvent(SDL_Event e) {
     if (QnFocusState_ == FOCUSED) {
-        //std::cout << QnCursorPosition_ << std::endl;
-        std::cout << CamX_ << std::endl;
         if( e.type == SDL_KEYDOWN )
         {
-            if (e.key.keysym.sym == SDLK_RIGHT && QnEditText_ != " " && QnCursorPosition_ < QnEditText_.size() - 1) {
+            if (e.key.keysym.sym == SDLK_RIGHT && QnEditText_ != " " && QnCursorPosition_ < QnEditText_.size()) {
                 if (QnCursorPosition_ >= (QnEditViewPort_.w / (QnTextSize_/2+_FONT_EPS))) {
                     CamX_ += (QnTextSize_ / 2 + _FONT_EPS);
                 }
@@ -87,6 +85,15 @@ void QnEdit::HandleEvent(SDL_Event e) {
                 if (QnCursorPosition_ >= (QnEditViewPort_.w / (QnTextSize_ / 2 + _FONT_EPS)) && CamX_ >= 0)
                     CamX_ -= (QnTextSize_ / 2 + _FONT_EPS);
                 SetCursorPos(QnCursorPosition_-1);
+            }
+            if( e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL )
+            {
+                SDL_SetClipboardText( QnEditText_.c_str() );
+            }
+                //Handle paste
+            else if( e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL ) {
+                QnEditText_ = std::string(SDL_GetClipboardText());
+                SetText(std::string(SDL_GetClipboardText()));
             }
         }
         if (e.type == SDL_TEXTINPUT) {

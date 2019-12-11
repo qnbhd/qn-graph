@@ -88,13 +88,17 @@ public:
         return {QnBtnRect_.x, QnBtnRect_.y};
     }
 
+    SDL_Rect GetRect ()
+    {
+        return QnBtnRect_;
+    }
+
     void SetText (std::string text)
     {
         QnBtnText_ = text;
     }
 
-    void HandleEvent (SDL_Event e) override
-    {}
+    void HandleEvent (SDL_Event e) override;
 
 
     ~QnButton () override

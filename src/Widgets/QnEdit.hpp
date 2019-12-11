@@ -69,5 +69,16 @@ public:
         return QnEditText_;
     }
 
+    void SetText (const std::string text)
+    {
+        QnEditText_.clear();
+        QnEditText_.reserve(text.size()+1);
+        QnEditText_ = text;
+    }
+
+    void SetTextColor (SDL_Color color)
+    {
+        QnEditTextColor_ = color;
+    }
 
 };

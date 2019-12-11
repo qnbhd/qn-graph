@@ -74,7 +74,6 @@ public:
 
     SDL_Point DekartToScreen (double x, double y);
 
-    void DekartToScreenPairs (const VectorPoints &, VectorPoints&);
 };
 
 

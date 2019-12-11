@@ -22,7 +22,9 @@ public:
 
     static void Point (SDL_Renderer*, int, int, SDL_Color);
 
-    static void Points (SDL_Renderer*, const VectorPoints& points, SDL_Color);
+    static void Points (SDL_Renderer*, QNDekart& QnSC, const VectorPoints& points, SDL_Color);
+
+    static void Points(SDL_Renderer * renderer, QNDekart& QnSC, std::vector<std::pair<double, double>> points, SDL_Color color);
 
     static void Line (SDL_Renderer*, SDL_Point, SDL_Point, SDL_Color);
 

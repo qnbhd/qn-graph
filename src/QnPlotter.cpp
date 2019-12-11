@@ -7,6 +7,8 @@
 
 void QnPlotter::Point(SDL_Renderer * renderer, int x, int y, SDL_Color color) {
     SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
+    Line(renderer, {x - 5, y}, {x + 5, y}, color);
+    Line(renderer, {x , y - 5}, {x , y + 5}, color);
     SDL_RenderDrawPoint(renderer, x, y);
 }
 
@@ -14,10 +16,20 @@ void QnPlotter::Line(SDL_Renderer * renderer, SDL_Point from, SDL_Point to, SDL_
     WuAlgorithm::Line(renderer, from.x, from.y, to.x, to.y, color);
 }
 
-void QnPlotter::Points(SDL_Renderer * renderer, const VectorPoints& points, SDL_Color color) {
+void QnPlotter::Points(SDL_Renderer * renderer, QNDekart& QnSC, const VectorPoints& points, SDL_Color color) {
     for (auto [x, y] : points)
         Point(renderer, x, y, color);
 }
+
+void QnPlotter::Points(SDL_Renderer * renderer, QNDekart& QnSC, std::vector<std::pair<double, double>> points, SDL_Color color) {
+    for (auto [x, y] : points)
+    {
+        auto [x1, y1] = QnSC.DekartToScreen(x,y);
+        Point(renderer, x1, y1, color);
+    }
+
+}
+
 
 void QnPlotter::Curve(SDL_Renderer * renderer, const VectorPoints &points, SDL_Color color) {
     for (int i = 1; i < points.size(); ++i)

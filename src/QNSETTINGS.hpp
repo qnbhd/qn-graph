@@ -28,11 +28,14 @@
 #define __APPLICATION_CPP_COMPILER_VERSION 17
 
 #define __SETTINGS_MAIN_FONT_PATH "misc/fonts/OpenSans-Regular.ttf"
-#define __SETTINGS_MONO_FONT_PATH "misc/fonts/PT-mono.ttf"
+#define __SETTINGS_MONO_FONT_PATH "misc/fonts/mono.ttf"
+#define __SETTINGS_LOGO_PATH      "misc/img/logo.png"
+#define __SETTINGS_BACK_PATH      "misc/img/back.png"
 
 #define __SETTINGS_BACKGROUND_COLOR                   0xFFFFFF
 #define __SETTINGS_CURRENT_THEME_MAIN_COLOR           #311B92
 #define __SETTINGS_CURRENT_THEME_MAIN_COLOR_D         {0x31, 0x1B, 0x92, 0xFF}
+#define __SETTINGS_CURRENT_THEME_MAIN_COLOR_RD        0x31, 0x1B, 0x92, 0xff
 #define __SETTINGS_CURRENT_THEME_LIGHT_COLOR          #6746C3
 #define __SETTINGS_CURRENT_THEME_LIGHT_COLOR_D        {0x67, 0x46, 0xC3, 0xFF}
 #define __SETTINGS_CURRENT_THEME_LIGHT_COLOR_RD       0x67, 0x46, 0xC3, 0xFF
@@ -47,7 +50,7 @@
 #define __SETTINGS_CURRENT_THEME_ACCENT_DARK_COLOR_D  {0xA0, 0x00, 0x37, 0xFF}
 #define __SETTINGS_BLACK_COLOR                        {0x0 , 0x0 , 0x0 , 0xFF}
 #define __SETTINGS_WHITE_COLOR                        {0xFF, 0xFF, 0xFF, 0xFF}
-
+#define __QN_FILE_MODIFICATOR "#__QNGRAPH__"
 #define __AUTHOR QNBHD
 #define __APP_DATE "05.12.2019"
 

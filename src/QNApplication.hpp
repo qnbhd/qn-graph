@@ -11,6 +11,7 @@
 
 #include "QNSETTINGS.hpp"
 #include "QNInit.hpp"
+#include "QnFileDialog.hpp"
 
 #include "QNDekart.hpp"
 #include "QnObject.hpp"
@@ -18,10 +19,34 @@
 #include "QnTexture.hpp"
 #include "Widgets/QnButton.hpp"
 #include "Widgets/QnViewPort.hpp"
+#include "Widgets/QnEdit.hpp"
 
+
+#include "Linalg/Approximation/Approximation.hpp"
+#include "Linalg/Poly.hpp"
+
+#include <vector>
+#include <sstream>
 
 #define MAXEPS 60
 #define MINEPS 25
+
+struct CurveField
+{
+    QnEdit* editbox;
+    QnButton* button;
+    int points;
+
+    friend bool operator==(const CurveField& left, const CurveField& right);
+};
+
+
+enum MathAction {
+    APPROXIMATION_MNK,
+    INTERPOLATION
+};
+
+
 
 enum QnScrollState
 {
@@ -31,7 +56,7 @@ enum QnScrollState
     MOUSE_UP
 };
 
-#include <vector>
+
 
 class QNApplication {
 
@@ -47,10 +72,20 @@ private:
 
     bool QnQuit;
 
-    static double f(double x)
-    {
-        return exp(x);
-    }
+    std::vector<SDL_Color> CurvesColor_ = {
+            {0xb9, 0x0, 0x05, 0x00},
+            {0x6a, 0x0, 0x80, 0x00},
+            {0x0, 0x3d, 0x33, 0xff},
+            {0x54, 0x4c, 0x00,0xff},
+            {0xd8, 0x43, 0x15,0xff},
+            {0x01, 0x57, 0x9b,0xff}
+    };
+
+    std::vector<CurveField> curveFields;
+
+    std::vector<std::pair<double, double>> appPoints;
+
+    bool Retrack_ = false;
 
 public:
 
@@ -64,6 +99,11 @@ public:
 
     void QNScrollEventHandler (SDL_Event, QnViewPort, QNDekart&, int&, int&);
 
+    void QNButtonEventHandler (SDL_Event, SDL_Rect,  CurveField&);
+
+    void QNAddButtonEventHandler (SDL_Event, SDL_Rect, SDL_Rect);
+
+    void QNMathButtonEventHandler (SDL_Event, SDL_Rect rect, char type);
 
 };
 
