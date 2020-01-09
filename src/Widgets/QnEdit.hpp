@@ -71,9 +71,7 @@ public:
 
     void SetText (const std::string text)
     {
-        QnEditText_.clear();
-        QnEditText_.reserve(text.size()+1);
-        QnEditText_ = text;
+        QnEditText_ = std::string(text);
     }
 
     void SetTextColor (SDL_Color color)

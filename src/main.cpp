@@ -12,7 +12,6 @@ std::map<std::string, double>  CVTable::variables_ = {
         std::make_pair("x", 0.0) // make new variables for any expressions!
 };
 
-
 std::map<std::string, int> FunctionTable::functions_ = {
         std::make_pair("sin",  SIN),
         std::make_pair("cos",  COS),

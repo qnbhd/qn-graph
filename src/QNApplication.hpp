@@ -87,6 +87,9 @@ private:
 
     bool Retrack_ = false;
 
+    bool DegInput_ = false;
+
+
 public:
 
     QNApplication();
@@ -103,7 +106,7 @@ public:
 
     void QNAddButtonEventHandler (SDL_Event, SDL_Rect, SDL_Rect);
 
-    void QNMathButtonEventHandler (SDL_Event, SDL_Rect rect, char type);
+    void QNMathButtonEventHandler (SDL_Event, SDL_Rect rect, QnEdit& input, char type);
 
 };
 

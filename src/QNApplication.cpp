@@ -39,7 +39,7 @@ void QNApplication::QNMainLoop() {
                                 __APPLICATION_SIZE_HEIGHT);
 
     QnButton addButton (QnMainRenderer, std::string("+"),
-                               {__APPLICATION_SIZE_WIDTH / 6 - 20, __APPLICATION_SIZE_HEIGHT - 60, 40, 40},
+                               {20, __APPLICATION_SIZE_HEIGHT - 60, 40, 40},
                                __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D,
                                __SETTINGS_WHITE_COLOR,18,8);
 
@@ -48,10 +48,9 @@ void QNApplication::QNMainLoop() {
                         __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D,
                         __SETTINGS_WHITE_COLOR,18,2);
 
-    QnButton interpolationButton (QnMainRenderer, std::string("in"),
-                                  {addButton.GetPos().x - 60, __APPLICATION_SIZE_HEIGHT - 60, 40, 40},
-                                  __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D,
-                                  __SETTINGS_WHITE_COLOR,18,3);
+
+    QnEdit degInput (QnMainRenderer, {approximationButton.GetPos().x + 60, approximationButton.GetPos().y, 110, 40}, QnViewPortFunc.ViewPort_,
+            __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
 
     auto * TextBox1 = new QnEdit (QnMainRenderer, {5, 100, 210, 40}, QnViewPortFunc.ViewPort_,
             __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D, __SETTINGS_BLACK_COLOR, 18);
@@ -70,6 +69,7 @@ void QNApplication::QNMainLoop() {
                       {221, 160, 40, 40},
                       __SETTINGS_CURRENT_THEME_ACCENT_LIGHT_COLOR_D,
                       __SETTINGS_WHITE_COLOR,18,8);
+
 
 
     QnTexture QnGraphLogo (QnMainRenderer);
@@ -109,9 +109,8 @@ void QNApplication::QNMainLoop() {
             addButton.HandleEvent(e);
             QNAddButtonEventHandler(e, addButton.GetRect(), QnViewPortFunc.ViewPort_);
             approximationButton.HandleEvent(e);
-            interpolationButton.HandleEvent(e);
-            QNMathButtonEventHandler(e, approximationButton.GetRect(),MathAction::APPROXIMATION_MNK);
-            QNMathButtonEventHandler(e, interpolationButton.GetRect(),MathAction::INTERPOLATION);
+            QNMathButtonEventHandler(e, approximationButton.GetRect(), degInput, MathAction::APPROXIMATION_MNK);
+            degInput.HandleEvent(e);
 
             if( e.type == SDL_KEYDOWN ) {
                // if (e.key.keysym.sym == SDLK_RIGHT)
@@ -135,10 +134,16 @@ void QNApplication::QNMainLoop() {
         }
 
         QnGraphLogo.render(0,0);
-        BtnBack.render(0,__APPLICATION_SIZE_HEIGHT - 75);
+        BtnBack.render(0,__APPLICATION_SIZE_HEIGHT - 75 );
         addButton.Redraw();
         approximationButton.Redraw();
-        interpolationButton.Redraw();
+
+        approximationButton.SetText("in");
+
+        if (DegInput_) {
+            approximationButton.SetText("->");
+            degInput.Redraw();
+        }
 
         SDL_RenderSetViewport(QnMainRenderer, &QnViewPortGraph.ViewPort_ );
         SDL_SetRenderDrawColor(QnMainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -324,10 +329,11 @@ void QNApplication::QNAddButtonEventHandler(SDL_Event e, SDL_Rect rect, SDL_Rect
     }
 }
 
-void QNApplication::QNMathButtonEventHandler(SDL_Event e, SDL_Rect rect, char type) {
+void QNApplication::QNMathButtonEventHandler(SDL_Event e, SDL_Rect rect, QnEdit& degInput, char type) {
     if( e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP) {
         int x, y;
         SDL_GetMouseState(&x, &y);
+        int deg = 2;
 
         auto btnposx = rect.x;
         auto btnposy = rect.y;
@@ -337,10 +343,38 @@ void QNApplication::QNMathButtonEventHandler(SDL_Event e, SDL_Rect rect, char ty
             return;
 
         Poly polynom;
-        int deg = 0;
 
         if (e.type == SDL_MOUSEBUTTONUP)
         {
+            if (!DegInput_)
+            {
+                DegInput_ = true;
+                return;
+            }
+
+            auto result = degInput.GetText();
+
+            for (auto ch : result)
+            {
+                if (ch == ' ')
+                    continue;
+                if (ch >= '0' && ch <= '9') {
+                    std::stringstream gks(result);
+                    gks >> deg;
+                    if (deg > 9)
+                    {
+                        degInput.SetText("<= 9");
+                        return;
+                    }
+                } else {
+                    degInput.SetText("err num");
+                    return;
+                }
+            }
+
+            DegInput_ = false;
+
+
             auto filepath = QnFileDialog::FileDialog({{"txt", "Text file"}}, false);
             std::vector<std::pair<double, double>> pointsInput;
             std::ifstream fin (filepath);
@@ -374,14 +408,6 @@ void QNApplication::QNMathButtonEventHandler(SDL_Event e, SDL_Rect rect, char ty
                 Y.push_back(y);
             }
 
-            if (X.size() == 1)
-                deg = 0;
-            if (X.size() >= 2)
-                deg = 2;
-            if (X.size() >= 15)
-                deg = 3;
-            if (X.size() >= 30)
-                deg = 4;
 
             switch (type) {
                 case MathAction::APPROXIMATION_MNK: {
@@ -419,6 +445,8 @@ void QNApplication::QNMathButtonEventHandler(SDL_Event e, SDL_Rect rect, char ty
             curveFields[0].editbox->SetText(str);
             curveFields[0].editbox->SetTextColor(CurvesColor_[0]);
             curveFields[0].points = 1;
+
+
             }
 
         }
