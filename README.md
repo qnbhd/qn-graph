@@ -2,6 +2,7 @@
 
 ![Logo](https://github.com/qnbhd/QNGraph/blob/master/misc/img/QNGRAPH.png)
 
+[![GitHub license](https://img.shields.io/github/license/qnbhd/qn-graph)](https://github.com/qnbhd/qn-graph)
 # Описание 
 
 QNGraph - приложение для построения графиков различных математических функций. Написано на C++ с использованием библиотеки SDL2.
