@@ -175,7 +175,6 @@ void QNApplication::QNMainLoop() {
 
         QnPlotter::Points(QnMainRenderer, QnSC, appPoints, CurvesColor_[rand() % 6]);
 
-
         SDL_RenderPresent( QnMainRenderer);
     }
 }
@@ -380,15 +379,19 @@ void QNApplication::QNMathButtonEventHandler(SDL_Event e, SDL_Rect rect, QnEdit&
             std::ifstream fin (filepath);
             std::string str;
             fin >> str;
+            std::cout << str << " " << filepath << std::endl;
 
             if (str != __QN_FILE_MODIFICATOR)
                 return;
+
+            std::cout << " ssd " << std::endl;
             appPoints.clear();
 
             while (fin.good())
             {
                 double _x, _y;
                 fin >> _x >> _y;
+                std::cout << _x << _y << std::endl;
                 pointsInput.emplace_back(_x, _y);
                 appPoints.emplace_back(_x, _y);
             }
